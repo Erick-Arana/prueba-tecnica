@@ -1,0 +1,169 @@
+<div class="col-lg-12 h-full">
+
+	<h3>{{titulo}}</h3>
+
+	<hr>
+
+	<div class="d-flex align-items-center my-3">
+		Crear producto
+		<i class="fas fa-plus-circle" (click)="openModal('create')"></i>
+	</div>
+
+	<div *ngIf="modal_flag" class="modal_categories">
+    
+		<div class="modal_content">
+	
+			<div class="close_container">
+				<span class="close" (click)="closeModal()">&times;</span>
+			</div>
+		
+			<br>
+			<h6 class="text-center">{{operation}}</h6>
+	
+			<div *ngIf="method == 'create'">
+			
+				<form #formProducto="ngForm" (ngSubmit)="addProduct()" class="col-lg-12" id="form-producto">
+	
+					<div class="d-flex justify-content-between align-items-center">
+						<label>
+							Nombre de Producto
+						</label>
+						<span *ngIf="!nombre.valid && nombre.touched" class="alert alert-danger">El nombre es obligatorio</span>
+					</div>
+	
+					<input type="text" #nombre="ngModel" name="nombre" [(ngModel)]="producto.nombre" class="form-control" required />
+
+					<div class="d-flex justify-content-between align-items-center mt-3">
+						
+						<div class="d-flex flex-column justify-content-center align-items-start w-50">
+
+							<div class="d-flex justify-content-between align-items-center w-75">
+								<label>
+									Stock
+								</label>
+								<span *ngIf="!stock.valid && stock.touched" class="alert alert-danger">Ingresar cantidad</span>
+							</div>
+			
+							<input type="text" #stock="ngModel" name="stock" [(ngModel)]="producto.stock" class="form-control w-50" required />
+
+						</div> 
+
+						<div class="d-flex flex-column justify-content-center align-items-start w-50">
+
+							<div class="d-flex justify-content-between align-items-center w-75">
+								<label>
+									Categoria
+								</label>
+							</div>
+			
+							<select name="categoria" class="form-control w-50" [(ngModel)]="producto.categoria" required>
+								<option value="" disabled>Escoge la categoria</option>
+								<option *ngFor="let option of categories" [value]="option.id">{{option.nombre}}</option>
+							</select>
+
+						</div>
+
+					</div>
+				
+					<br/>
+					
+					<div class="d-flex justify-content-between">
+						<input type="submit" value="Enviar" [disabled]="!formProducto.form.valid" class="btn btn-dark"/>
+						<button *ngIf="message" class="btn btn-success" (click)="closeModal()">{{message}}</button>
+					</div>
+	
+				</form>
+				
+			</div>
+
+			<div *ngIf="method == 'edit'">
+			
+				<form #formProducto="ngForm" (ngSubmit)="editProduct()" class="col-lg-12" id="form-producto">
+	
+					<div class="d-flex justify-content-between align-items-center">
+						<label>
+							Nombre de Producto
+						</label>
+						<span *ngIf="!nombre.valid && nombre.touched" class="alert alert-danger">El nombre es obligatorio</span>
+					</div>
+	
+					<input type="text" #nombre="ngModel" name="nombre" [(ngModel)]="producto.nombre" class="form-control" required />
+
+					<div class="d-flex justify-content-between align-items-center mt-3">
+						
+						<div class="d-flex flex-column justify-content-center align-items-start w-50">
+
+							<div class="d-flex justify-content-between align-items-center w-75">
+								<label>
+									Stock
+								</label>
+								<span *ngIf="!stock.valid && stock.touched" class="alert alert-danger">Ingresar cantidad</span>
+							</div>
+			
+							<input type="text" #stock="ngModel" name="stock" [(ngModel)]="producto.stock" class="form-control w-50" required />
+
+						</div> 
+
+						<div class="d-flex flex-column justify-content-center align-items-start w-50">
+
+							<div class="d-flex justify-content-between align-items-center w-75">
+								<label>
+									Categoria
+								</label>
+							</div>
+			
+							<select name="categoria" class="form-control w-50" [(ngModel)]="producto.id_categoria" disabled required>
+								<option value="" disabled>Escoge la categoria</option>
+								<option *ngFor="let option of categories" [value]="option.id">{{option.nombre}}</option>
+							</select>
+
+						</div>
+
+					</div>
+				
+					<br/>
+					
+					<div class="d-flex justify-content-between">
+						<input type="submit" value="Enviar" [disabled]="!formProducto.form.valid" class="btn btn-dark"/>
+						<button *ngIf="message" class="btn btn-success" (click)="closeModal()">{{message}}</button>
+					</div>
+	
+				</form>
+				
+			</div>
+
+			<div *ngIf="method == 'delete'">
+            
+				<div class="d-flex flex-column align-items-center justify-content-center w-100">
+					
+					<div class="d-flex justify-content-between w-25 mt-3">
+						<button class="btn btn-primary" (click)="deleteProduct()">Si</button>
+						<button class="btn btn-danger" (click)="closeModal()">No</button>
+					</div>
+	
+					<button *ngIf="message" class="btn btn-success mt-3" (click)="closeModal()">{{message}}</button>
+	
+				</div>
+				
+			</div>
+	
+		</div>
+		
+	</div>
+
+	<div class="container-fluid container_h">
+		<div class="col-lg-12" *ngIf="productos">
+
+			<div *ngFor="let item of productos">
+				<div id="categories_container">
+					<div id="categories">Nombre Producto: <strong>{{item.nombre}}</strong> ---- Categoria: <strong>{{item.categoria}}</strong></div>
+					<i class="fas fa-edit" (click)="editModal(item)"></i>
+					<i class="fas fa-minus-circle" (click)="deleteModal(item)"></i>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+

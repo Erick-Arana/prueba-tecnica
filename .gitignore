@@ -1,0 +1,5 @@
+.idea/
+.vscode/
+/coverage/
+/backend/vendor/
+/frontend/node_modules

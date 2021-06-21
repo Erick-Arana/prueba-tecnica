@@ -1,0 +1,94 @@
+<ul *ngIf="items.length">
+    <li *ngFor="let item of items">
+        <div id="categories_container">
+            <div id="categories">{{item.nombre}}</div>
+            <i class="fas fa-plus-circle" (click)="addSub(item)"></i>
+            <i class="fas fa-edit" (click)="editCategory(item)"></i>
+            <i class="fas fa-minus-circle" (click)="deleteCategory(item)"></i>
+        </div>
+        <tree-view *ngIf="item[key]?.length" [key]="key" [data]="item[key]"></tree-view>
+    </li>
+</ul>
+
+<div *ngIf="modal_flag" class="modal_categories">
+    
+    <div class="modal_content">
+
+        <div class="close_container">
+            <span class="close" (click)="closeModal()">&times;</span>
+        </div>
+    
+        <br>
+        <h6 class="text-center">{{operation}}</h6>
+
+        <div *ngIf="method == 'create'">
+        
+            <form #formCategoria="ngForm" (ngSubmit)="createSubcategory()" class="col-lg-12" id="form-categoria">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <label>
+                        Nombre de Subcategoria
+                    </label>
+                    <span *ngIf="!nombre.valid && nombre.touched" class="alert alert-danger">El nombre es obligatorio</span>
+                </div>
+
+                <input type="text" #nombre="ngModel" name="nombre" [(ngModel)]="categoria.nombre" class="form-control" required />
+            
+                <br/>
+                
+                <div class="d-flex justify-content-between">
+                    <input type="submit" value="Enviar" [disabled]="!formCategoria.form.valid" class="btn btn-dark"/>
+                    <button *ngIf="message" class="btn btn-success" (click)="closeModal()">{{message}}</button>
+                </div>
+
+            </form>
+            
+        </div>
+    
+        <div *ngIf="method == 'edit'">
+            
+            <form #formCategoria="ngForm" (ngSubmit)="editSubcategory()" class="col-lg-12" id="form-categoria">
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <label>
+                        Agregar el nuevo nombre de Subcategoria
+                    </label>
+                    <span *ngIf="!nombre.valid && nombre.touched" class="alert alert-danger">El nombre es obligatorio</span>
+                </div>
+
+                <input type="text" #nombre="ngModel" name="nombre" [(ngModel)]="categoria.nombre" class="form-control" required />
+            
+                <br/>
+                
+                <div class="d-flex justify-content-between">
+                    <input type="submit" value="Enviar" [disabled]="!formCategoria.form.valid" class="btn btn-dark"/>
+                    <button *ngIf="message" class="btn btn-success" (click)="closeModal()">{{message}}</button>
+                </div>
+
+            </form>
+            
+        </div>
+    
+        <div *ngIf="method == 'delete'">
+            
+            <div class="d-flex flex-column align-items-center justify-content-center w-100">
+                
+                <div class="d-flex justify-content-between w-25 mt-3">
+                    <button class="btn btn-primary" (click)="deleteSubcategory()">Si</button>
+                    <button class="btn btn-danger" (click)="closeModal()">No</button>
+                </div>
+
+                <button *ngIf="warning" class="btn btn-warning mt-3" (click)="closeModal()">{{warning}}</button>
+
+                <button *ngIf="message" class="btn btn-success mt-3" (click)="closeModal()">{{message}}</button>
+
+            </div>
+            
+        </div>
+
+    </div>
+    
+
+    
+
+</div>
