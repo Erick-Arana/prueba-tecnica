@@ -156,7 +156,7 @@
 
 			<div *ngFor="let item of productos">
 				<div id="categories_container">
-					<div id="categories">Nombre Producto: <strong>{{item.nombre}}</strong> ---- Categoria: <strong>{{item.categoria}}</strong></div>
+					<div id="categories">Nombre Producto: <strong>{{item.nombre}}</strong> ---- Categoria: <strong>{{item.categoria}}</strong> ---- Stock: <strong>{{item.stock}}</strong></div>
 					<i class="fas fa-edit" (click)="editModal(item)"></i>
 					<i class="fas fa-minus-circle" (click)="deleteModal(item)"></i>
 				</div>

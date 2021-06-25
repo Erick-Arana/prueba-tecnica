@@ -430,32 +430,72 @@ return function ($app, $db) {
 
 				$sql =	"DELETE FROM productos WHERE id = $id";
 
-					$query = $db->query($sql);
+				$query = $db->query($sql);
 
-					if($query){
+				if($query){
 
-						$result = array(
-							'status' => 'success',
-							'code' => 200,
-							'message' => 'Producto eliminado exitosamente'
-						);
+					$result = array(
+						'status' => 'success',
+						'code' => 200,
+						'message' => 'Producto eliminado exitosamente'
+					);
 
-					}else {
-						
-						$result = array(
-							'status' => 'error',
-							'code' => 400,
-							'message' => 'Error al eliminar el producto'
-						);
+				}else {
+					
+					$result = array(
+						'status' => 'error',
+						'code' => 400,
+						'message' => 'Error al eliminar el producto'
+					);
 
-					}
-			
-					echo json_encode($result);
+				}
+		
+				echo json_encode($result);
+				
 			});
 		
 		});
 
 		$app->get('/reporte', function() use($db){
+
+			$sql = 'CALL calctotal()';
+			$query = $db->query($sql);
+			
+			$reportes = array();
+			
+			try {
+
+				while($row = $query->fetch_assoc()){
+
+					$reportes[] = array(
+						'nombre' => $row['nombre'],
+						'id_categoria' => $row['id_categoria'],
+						'cantidad' => $row['cantidad'],
+						'productos' => $row['productos'],
+						'productos' => $row['productos']
+					);
+
+				}
+
+				$result = $reportes;
+
+				$result = array(
+					'status' => 'success',
+					'code' => 200,
+					'Report' => $reportes
+				);
+
+			} catch (Exception $e) {
+
+				$result = array(
+					'status' => 'error',
+					'code' => 400,
+					'error' => $e->getMessage()
+				);
+
+			}
+			
+			echo json_encode($result);
 
 		});
 
